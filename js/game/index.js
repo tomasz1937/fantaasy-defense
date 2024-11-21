@@ -220,8 +220,6 @@ function animate() {
 
                     projectile.enemy.isAlive = false;
 
-                    console.log(projectile.enemy.type);
-
                     if(projectile.enemy.type == 'goblin'){
                         goblinDeath.play();
                     }
