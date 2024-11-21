@@ -306,17 +306,11 @@ disabledLevels.forEach(level => {
 });
 
 // Event listener for mouse clicks to build towers
-const handleCanvasInteraction = (event) => {
+canvas.addEventListener('click', (event) => {
+    const mouseX = event.clientX - canvas.offsetLeft;
+    const mouseY = event.clientY - canvas.offsetTop;
 
-    const isTouchEvent = event.type === 'touchstart';
-    const mouseX = isTouchEvent
-        ? event.touches[0].clientX - canvas.offsetLeft
-        : event.clientX - canvas.offsetLeft;
-    const mouseY = isTouchEvent
-        ? event.touches[0].clientY - canvas.offsetTop
-        : event.clientY - canvas.offsetTop;
-
-    // Check if the click or tap is on a tile for placing a tower
+    // Check if the click is on a tile for placing a tower
     if (activeTile && !activeTile.isOccupied && coins - (activeTower ? activeTower.price : 0) >= 0) {
         coins -= activeTower.price;
         document.querySelector('#coins').innerHTML = coins;
@@ -325,8 +319,9 @@ const handleCanvasInteraction = (event) => {
         const newTower = new Building({
             position: { x: activeTile.position.x, y: activeTile.position.y },
             type: activeTower.name,
-            level: 1 
+            level: 1  // Ensure the new tower starts at level 1
         });
+
 
         build.play();
         buildings.push(newTower);
@@ -351,11 +346,11 @@ const handleCanvasInteraction = (event) => {
             document.getElementById('upgradeCost').textContent = 'MAX LEVEL';
         }
     } 
-    // Check if the click or tap is on a tower (for upgrading)
+    // Check if the click is on a tower (for upgrading)
     else {
         let towerClicked = null;
-
-        // Loop through buildings array to see if any tower is clicked or tapped
+        
+        // Loop through buildings array to see if any tower is clicked
         buildings.forEach((building) => {
             if (
                 mouseX > building.position.x && mouseX < building.position.x + building.width &&
@@ -371,6 +366,8 @@ const handleCanvasInteraction = (event) => {
             document.getElementById('selectedTowerName').textContent = towerClicked.type;
             document.getElementById('selectedTowerLevel').textContent = `Level: ${towerClicked.level}`;
             document.getElementById('selectedTowerImg').src = buildingTypes[towerClicked.type].upgrade[towerClicked.level]?.imageSrc || `img/Buildings/Lv1${towerClicked.type.replace(' ', '')}.png`;
+            console.log(buildingTypes[towerClicked.type].upgrade[towerClicked.level]?.imageSrc || `img/Buildings/Lv1${towerClicked.type.replace(' ', '')}.png`)
+                
 
             // Check if there is an upgrade available for the next level
             const nextLevel = towerClicked.level + 1;
@@ -384,19 +381,16 @@ const handleCanvasInteraction = (event) => {
                 document.getElementById('upgradeCost').textContent = 'MAX LEVEL';
             }
             activeTower = towerClicked; // Set activeTower to the clicked tower for upgrades
-        } else {
+        }
+        else{
             document.getElementById('upgradeArea').style.display = 'none';
             activeTower = null;
         }
     }
-};
+});
 
-// Add event listeners for both click and touchstart
-canvas.addEventListener('click', handleCanvasInteraction);
-canvas.addEventListener('touchstart', handleCanvasInteraction);
-
-document.getElementById('upgradeArea').addEventListener('click', (event) => {
-    // Handle click or tap events
+//Upgrade button functionality
+document.getElementById('upgradeArea').addEventListener('click', () => {
     if (activeTower) {
         const upgradeData = buildingTypes[activeTower.type].upgrade[activeTower.level + 1];
 
@@ -429,40 +423,6 @@ document.getElementById('upgradeArea').addEventListener('click', (event) => {
     }
 });
 
-// Handle tap events (touchstart)
-document.getElementById('upgradeArea').addEventListener('touchstart', (event) => {
-    // Handle touchstart or tap events 
-    if (activeTower) {
-        const upgradeData = buildingTypes[activeTower.type].upgrade[activeTower.level + 1];
-
-        // Check if there is an upgrade available and if the player has enough coins
-        if (upgradeData && coins >= upgradeData.price) {
-            coins -= upgradeData.price;
-            document.querySelector('#coins').innerHTML = coins;
-
-            activeTower.upgrade(); // Call the upgrade method on the active tower
-
-            // Update the UI after upgrading
-            document.getElementById('selectedTowerLevel').textContent = `Level: ${activeTower.level}`;
-            document.getElementById('selectedTowerImg').src = activeTower.imageSrc;
-
-            const nextUpgradeData = buildingTypes[activeTower.type].upgrade[activeTower.level + 1];
-            if (nextUpgradeData) {
-                document.getElementById('upgradeCost').innerHTML = `Upgrade Cost: <span id="upgradeCostValue">${nextUpgradeData.price}</span> Coins`;
-            } else {
-                // Display only "MAX LEVEL" if no further upgrades are available
-                document.getElementById('upgradeCost').textContent = 'MAX LEVEL';
-            }
-        } else if (!upgradeData) {
-            // If no upgrades are available from the start (max level)
-            document.getElementById('selectedTowerLevel').textContent = `Level: ${activeTower.level}`;
-            document.getElementById('selectedTowerImg').src = activeTower.imageSrc;
-            document.getElementById('upgradeCost').textContent = 'MAX LEVEL';
-        } else {
-            alert('Not enough coins for upgrade.');
-        }
-    }
-});
 
 
 // Event listener for mouse movement to track the position
@@ -514,12 +474,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Event listener for tower option clicks and taps
+// Event listener for tower option clicks
 for (let i = 0; i < towerOptions.length; i++) {
     const option = towerOptions[i];
 
-    // Handle click or tap events
-    const handleEvent = (event) => {
+    option.addEventListener('click', (event) => {
         const target = event.target.closest('.towerOption');
 
         if (target) {
@@ -529,11 +488,6 @@ for (let i = 0; i < towerOptions.length; i++) {
             highlightPlacementTiles();
             activeTower = { name: towerName, price: towerPrice };
         }
-    };
-
-    // Add both click and touchstart event listeners
-    option.addEventListener('click', handleEvent);
-    option.addEventListener('touchstart', handleEvent);
+    });
 }
-
 
