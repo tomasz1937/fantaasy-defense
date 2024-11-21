@@ -384,6 +384,7 @@ canvas.addEventListener('click', (event) => {
         }
         else{
             document.getElementById('upgradeArea').style.display = 'none';
+            document.getElementById('towerOptions').style.display = 'none';
             activeTower = null;
         }
     }
