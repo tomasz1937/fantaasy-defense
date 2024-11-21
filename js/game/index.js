@@ -11,7 +11,7 @@ let currentWave = 0;
 let animationId;
 let activeTile = undefined;
 let hearts = 25;
-let coins = 150;
+let coins = 1500;
 let activeTower = null;
 let gameStarted = false;
 
@@ -36,12 +36,13 @@ const arrowHitSound = new Audio('./sounds/arrow/hit.mp3');
 const goblinDeath = new Audio('./sounds/death/smallDie.mp3');
 const orcDeath = new Audio('./sounds/death/orcDeath.mp3');
 const build = new Audio('./sounds/building/build.mp3');
+const upgrade = new Audio('./sounds/upgrade/upgrade.mp3')
 
 const mainTheme = new Audio('./sounds/mainTheme/mainTheme.mp3');
 
-orcDeath.volume = .2;
-goblinDeath.volume = .2;
-arrowHitSound.volume = .3;
+orcDeath.volume = .5;
+goblinDeath.volume = .3;
+arrowHitSound.volume = .1;
 
 // Parse wave data for spawning
 function parseWaveData(waveString) {
@@ -225,7 +226,7 @@ function animate() {
                     if(projectile.enemy.type == 'goblin'){
                         goblinDeath.play();
                     }
-                    else if(projectile.enemy.type == 'orc' || projectile.enemy.type == 'blackorc' || projectile.enemy.type == 'yeti' || projectile.enemy.type == 'giant'){
+                    else{
                         orcDeath.play();
                     }
                
@@ -368,7 +369,6 @@ canvas.addEventListener('click', (event) => {
             document.getElementById('selectedTowerImg').src = buildingTypes[towerClicked.type].upgrade[towerClicked.level]?.imageSrc || `img/Buildings/Lv1${towerClicked.type.replace(' ', '')}.png`;
             console.log(buildingTypes[towerClicked.type].upgrade[towerClicked.level]?.imageSrc || `img/Buildings/Lv1${towerClicked.type.replace(' ', '')}.png`)
                 
-
             // Check if there is an upgrade available for the next level
             const nextLevel = towerClicked.level + 1;
             const upgradeData = buildingTypes[towerClicked.type].upgrade[nextLevel];
@@ -400,6 +400,7 @@ document.getElementById('upgradeArea').addEventListener('click', () => {
             coins -= upgradeData.price;
             document.querySelector('#coins').innerHTML = coins;
 
+            upgrade.play();
             activeTower.upgrade(); // Call the upgrade method on the active tower
 
             // Update the UI after upgrading
@@ -423,8 +424,6 @@ document.getElementById('upgradeArea').addEventListener('click', () => {
         }
     }
 });
-
-
 
 // Event listener for mouse movement to track the position
 window.addEventListener('mousemove', (event) => {
