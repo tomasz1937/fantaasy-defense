@@ -32,9 +32,12 @@ const gameScreen = document.getElementById('game-screen')
 const image = new Image();
 const disabledLevels = document.querySelectorAll('.disabled');
 
-const arrowHitSound = new Audio('../sounds/arrow/arrowHit.mp3');
-const goblinDeath = new Audio('../sounds/death/smallDie.mp3');
-const orcDeath = new Audio('../sounds/death/orcDeath.mp3');
+const arrowHitSound = new Audio('./sounds/arrow/arrowHit.mp3');
+
+const goblinDeath = new Audio('./sounds/death/smallDie.mp3');
+
+const orcDeath = new Audio('./sounds/death/orcDeath.mp3');
+
 const mainTheme = new Audio('./sounds/mainTheme/mainTheme.mp3');
 
 orcDeath.volume = .2;
