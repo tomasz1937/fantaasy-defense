@@ -35,6 +35,7 @@ const disabledLevels = document.querySelectorAll('.disabled');
 const arrowHitSound = new Audio('./sounds/arrow/hit.mp3');
 const goblinDeath = new Audio('./sounds/death/smallDie.mp3');
 const orcDeath = new Audio('./sounds/death/orcDeath.mp3');
+const build = new Audio('./sounds/building/build.mp3');
 
 const mainTheme = new Audio('./sounds/mainTheme/mainTheme.mp3');
 
@@ -235,7 +236,8 @@ function animate() {
                 }
                 // Remove the projectile after hit
                 building.projectiles.splice(i, 1);
-                arrowHitSound.play();
+                const arrowHitSoundInstance = new Audio('./sounds/arrow/hit.mp3');
+                arrowHitSoundInstance.play();
             }
         }
     });
@@ -320,6 +322,8 @@ canvas.addEventListener('click', (event) => {
             level: 1  // Ensure the new tower starts at level 1
         });
 
+
+        build.play();
         buildings.push(newTower);
 
         activeTile.isOccupied = true;
