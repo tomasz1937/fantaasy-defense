@@ -32,7 +32,7 @@ const gameScreen = document.getElementById('game-screen')
 const image = new Image();
 const disabledLevels = document.querySelectorAll('.disabled');
 
-const arrowHitSound = new Audio('./sounds/arrow/arrowHit.mp3');
+const arrowHitSound = new Audio('./sounds/arrow/arrowHit_temp.mp3');
 
 const goblinDeath = new Audio('./sounds/death/smallDie.mp3');
 
