@@ -360,7 +360,7 @@ canvas.addEventListener('click', (event) => {
             document.getElementById('upgradeArea').style.display = 'flex';
             document.getElementById('selectedTowerName').textContent = towerClicked.type;
             document.getElementById('selectedTowerLevel').textContent = `Level: ${towerClicked.level}`;
-            document.getElementById('selectedTowerImg').src = buildingTypes[towerClicked.type].upgrade[towerClicked.level]?.imageSrc || `img/Buildings/lv1${towerClicked.type.replace(' ', '')}.png`;
+            document.getElementById('selectedTowerImg').src = buildingTypes[towerClicked.type].upgrade[towerClicked.level]?.imageSrc || `img/Buildings/Lv1${towerClicked.type.replace(' ', '')}.png`;
             console.log(buildingTypes[towerClicked.type].upgrade[towerClicked.level]?.imageSrc || `img/Buildings/Lv1${towerClicked.type.replace(' ', '')}.png`)
                 
 
