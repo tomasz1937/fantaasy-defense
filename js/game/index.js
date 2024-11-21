@@ -33,9 +33,7 @@ const image = new Image();
 const disabledLevels = document.querySelectorAll('.disabled');
 
 const arrowHitSound = new Audio('./sounds/arrow/hit.mp3');
-
 const goblinDeath = new Audio('./sounds/death/smallDie.mp3');
-
 const orcDeath = new Audio('./sounds/death/orcDeath.mp3');
 
 const mainTheme = new Audio('./sounds/mainTheme/mainTheme.mp3');
