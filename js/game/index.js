@@ -380,13 +380,14 @@ canvas.addEventListener('click', (event) => {
                 // If max level is reached, just show "MAX LEVEL"
                 document.getElementById('upgradeCost').textContent = 'MAX LEVEL';
             }
-
             activeTower = towerClicked; // Set activeTower to the clicked tower for upgrades
+        }
+        else{
+            document.getElementById('upgradeArea').style.display = 'none';
+            activeTower = null;
         }
     }
 });
-
-
 
 //Upgrade button functionality
 document.getElementById('upgradeArea').addEventListener('click', () => {
