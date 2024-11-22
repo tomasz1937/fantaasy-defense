@@ -11,7 +11,7 @@ let currentWave = 0;
 let animationId;
 let activeTile = undefined;
 let hearts = 25;
-let coins = 1500;
+let coins = 150;
 let activeTower = null;
 let gameStarted = false;
 
@@ -308,8 +308,16 @@ disabledLevels.forEach(level => {
 
 // Event listener for mouse clicks to build towers
 canvas.addEventListener('click', (event) => {
-    const mouseX = event.clientX - canvas.offsetLeft;
-    const mouseY = event.clientY - canvas.offsetTop;
+
+    const rect = canvas.getBoundingClientRect();
+
+    // Adjust mouse coordinates based on the canvas scale and position
+    const mouseX = (event.clientX - rect.left) * (canvas.width / rect.width);
+    const mouseY = (event.clientY - rect.top) * (canvas.height / rect.height);
+
+    console.log(mouseX)
+    console.log(mouseY)
+
 
     // Check if the click is on a tile for placing a tower
     if (activeTile && !activeTile.isOccupied && coins - (activeTower ? activeTower.price : 0) >= 0) {
@@ -385,6 +393,11 @@ canvas.addEventListener('click', (event) => {
         else{
             document.getElementById('upgradeArea').style.display = 'none';
             document.getElementById('towerOptions').style.display = 'none';
+
+            placementTiles.forEach(tile => {
+                tile.highlighted = false;
+            });
+
             activeTower = null;
         }
     }
@@ -427,8 +440,11 @@ document.getElementById('upgradeArea').addEventListener('click', () => {
 
 // Event listener for mouse movement to track the position
 window.addEventListener('mousemove', (event) => {
-    mouse.x = event.clientX;
-    mouse.y = event.clientY;
+
+    const rect = canvas.getBoundingClientRect();
+
+    mouse.x = (event.clientX - rect.left) * (canvas.width / rect.width)
+    mouse.y = (event.clientY - rect.top) * (canvas.height / rect.height);
 
     // Reset activeTile and building hover states
     activeTile = null;
