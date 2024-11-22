@@ -178,11 +178,18 @@ function animate() {
     }
 
     // Respawn enemies when none are left
-    if (enemies.length === 0 && currentWave < 20) {
+    if (enemies.length === 0 && currentWave < 40) {
         if(gameStarted){
             document.querySelector('#waveIndicator').innerHTML = 'Wave ' + ++currentWave;
             spawnEnemies();
         }
+    }
+    else if(enemies.length === 0 && currentWave > 40){
+        document.querySelector('#gameOver').innerHTML = 'VICTORY';
+        setTimeout(() => {
+            document.getElementById('mainMenu').style.display = 'flex';
+            waveIndicator.style.display = 'none'
+        }, 3000); 
     }
 
     // Update placement tiles
